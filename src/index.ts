@@ -7,7 +7,6 @@ import cors from "cors";
 import { CronJob } from "cron";
 import { Server } from "socket.io";
 import router from "./router";
-import { getDashBoardData } from "controllers/dashboardController";
 import { generateRandomData } from "./util";
 
 const app = express();
@@ -39,13 +38,13 @@ io.on("connection", (socket) => {
     console.log("job started");
     const data = await generateRandomData();
     socket.emit("dataUpdateEvent", data);
-    console.log("job ended:- "+ Date.now() );
+    console.log("job ended:- " + Date.now());
   });
 
   job.start();
 
   socket.on("disconnect", () => {
-    console.log('connection closed')
+    console.log("connection closed");
     job.stop();
   });
 });
