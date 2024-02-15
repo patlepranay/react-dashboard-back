@@ -8,6 +8,9 @@ import { CronJob } from "cron";
 import { Server } from "socket.io";
 import router from "./router";
 import { generateRandomData } from "./util";
+import "dotenv/config";
+import { generateSlug } from "random-word-slugs";
+
 
 const app = express();
 
@@ -33,10 +36,16 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
+  const companyName = Array.from(
+    { length: Number(process.env.COMPANY_LENGTH) },
+    (_, index) => (
+       generateSlug(2, { format: "title" })
+    )
+  );
   // Cron job execution timing documentation: https://www.easycron.com/faq/What-cron-expression-does-easycron-support
   const job = new CronJob("*/5 * * * * *", async () => {
     console.log("job started");
-    const data = await generateRandomData();
+    const data = await generateRandomData(Number(process.env.COMPANY_LENGTH),companyName);
     socket.emit("dataUpdateEvent", data);
     console.log("job ended:- " + Date.now());
   });
@@ -49,4 +58,4 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(5000, () => console.log(`Listenting to http://localhost:5000`));
+server.listen(5000, () => console.log(`Listenting to http://localhost:5000 `));
