@@ -7,7 +7,7 @@ import cors from "cors";
 import { CronJob } from "cron";
 import { Server } from "socket.io";
 import router from "./router";
-import { generateRandomData } from "./util";
+import { generateRandomData } from "./util/util";
 import "dotenv/config";
 import { generateSlug } from "random-word-slugs";
 

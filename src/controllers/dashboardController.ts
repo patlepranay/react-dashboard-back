@@ -1,5 +1,5 @@
 import express from "express";
-import { generateRandomData } from "../util";
+import { generateRandomData } from "../util/util";
 import 'dotenv/config'
 
 export const getDashBoardData = async (
