@@ -14,6 +14,8 @@ import { generateSlug } from "random-word-slugs";
 
 const app = express();
 
+const PORT = process.env.PORT || 3000;
+
 app.use(
   cors({
     credentials: true,
@@ -25,12 +27,13 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use("/", router());
+app.use("/health",(req,res)=> res.send('Healthy'))
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "*",
   },
   transports: ["websocket", "polling"],
 });
@@ -58,4 +61,4 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(5000, () => console.log(`Listenting to http://localhost:5000 `));
+server.listen(PORT, () => console.log(`Listenting to ${PORT} `));
