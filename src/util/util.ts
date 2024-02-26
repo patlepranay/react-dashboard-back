@@ -29,7 +29,7 @@ export const generateRandomData = (length: number, companyArray?: string[]) => {
   }
 
   // Generate random data for 5 companies
-  const companies = Array.from({ length: 5 }, (_, index) => ({
+  const companies = Array.from({ length: length }, (_, index) => ({
     name: companyArray
       ? companyArray[index]
       : generateSlug(2, { format: "title" }),
