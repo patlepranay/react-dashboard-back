@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
+    origin:["https://react-live-dashboard.netlify.app","http://localhost:5173/"],
     credentials: true,
   })
 );
@@ -25,9 +26,6 @@ app.use(
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
-
-app.use("/", router());
-app.use("/health",(req,res)=> res.send('Healthy'))
 
 const server = http.createServer(app);
 
@@ -60,5 +58,10 @@ io.on("connection", (socket) => {
     job.stop();
   });
 });
+
+
+app.use("/", router());
+app.use("/health",(req,res)=> res.send('Healthy'))
+
 
 server.listen(PORT, () => console.log(`Listenting to ${PORT} `));
